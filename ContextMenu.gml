@@ -2,9 +2,6 @@
 if (typeof(dll_cdecl) == undefined) {
     dll_cdecl = 0;
 }
-if (typeof(ty_void) == undefined) {
-    ty_void = 0;
-}
 if (typeof(ty_real) == undefined) {
     ty_real = 1;
 }
@@ -12,7 +9,7 @@ if (typeof(ty_real) == undefined) {
 // Define the initialization macro
 #define contextMenuInit
 /// Initializes the context menu by defining the external function.
-global.showContextMenu = external_define("ContextMenuDLL.dll", "ShowContextMenu", dll_cdecl, 0 , 2, ty_real, ty_real);
+global.showContextMenu = external_define("ContextMenuDLL.dll", "ShowContextMenu", dll_cdecl, ty_real , 2, ty_real, ty_real);
 
 // Define the cleanup macro
 #define contextMenuCleanup
