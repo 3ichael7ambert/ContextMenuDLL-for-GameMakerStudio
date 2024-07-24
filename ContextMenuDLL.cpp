@@ -2,28 +2,26 @@
 #include <iostream>
 
 extern "C" __declspec(dllexport) void ShowContextMenu(double x, double y) {
-    // Log the function call
-    HWND hwnd = GetForegroundWindow();
-    MessageBox(hwnd, "INTRO", "Info", MB_OK);
-    OutputDebugString("ShowContextMenu called\n");
+    OutputDebugString("ShowContextMenu called\n"); // Debug message
 
     HMENU hMenu = CreatePopupMenu();
     AppendMenu(hMenu, MF_STRING, 1, "Option 1");
     AppendMenu(hMenu, MF_STRING, 2, "Option 2");
+    AppendMenu(hMenu, MF_STRING, 3, "Option 3");
+
+    HWND hwnd = GetForegroundWindow();
+    if (hwnd == NULL) {
+        OutputDebugString("Failed to get foreground window\n");
+        return;
+    }
 
     POINT pt = { static_cast<LONG>(x), static_cast<LONG>(y) };
-    //HWND hwnd = GetForegroundWindow();
-    SetForegroundWindow(hwnd);
+    ClientToScreen(hwnd, &pt);
 
-    // Log the coordinates
-    char buffer[256];
-    sprintf(buffer, "Coordinates: %ld, %ld\n", pt.x, pt.y);
-    OutputDebugString(buffer);
-
-    // Display the context menu
     int cmd = TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_TOPALIGN | TPM_LEFTALIGN, pt.x, pt.y, 0, hwnd, NULL);
 
-    // Handle the selected menu item
+    OutputDebugString("Menu item selected: " + std::to_string(cmd) + "\n");
+
     switch (cmd) {
         case 1:
             MessageBox(hwnd, "Option 1 Selected", "Info", MB_OK);
@@ -37,6 +35,7 @@ extern "C" __declspec(dllexport) void ShowContextMenu(double x, double y) {
         default:
             break;
     }
-    
-    //DestroyMenu(hMenu); // Clean up the menu to prevent memory leaks
+
+   // DestroyMenu(hMenu);
 }
+

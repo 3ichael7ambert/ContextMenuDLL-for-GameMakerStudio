@@ -20,6 +20,10 @@ external_free(global.showContextMenu);
 function showContextMenuAtMousePosition() {
     var xx = display_mouse_get_x();
     var yy = display_mouse_get_y();
-    external_call(global.showContextMenu, xx, yy);
+    var result = external_call(global.showContextMenu, xx, yy);
+    if (result == undefined) {
+        show_error("Failed to call external function", true);
+    }
 }
+
 
