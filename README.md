@@ -6,3 +6,9 @@ To compile .cpp to a .dll, you need to open Developer Terminal or Developer Powe
 ```ps1
 cl /LD ContextMenuDLL.cpp /Fe:ContextMenuDLL.dll /link User32.lib
 ```
+
+x64
+```ps1
+cl /LD /Fe:ContextMenuDLL.dll ContextMenuDLL.cpp /link /MACHINE:X64 User32.li
+b
+```
