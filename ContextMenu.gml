@@ -22,3 +22,4 @@ function showContextMenuAtMousePosition() {
     var yy = display_mouse_get_y();
     external_call(global.showContextMenu, xx, yy);
 }
+
