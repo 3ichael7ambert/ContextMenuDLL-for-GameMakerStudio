@@ -11,4 +11,13 @@ x64
 ```ps1
 cl /LD /Fe:ContextMenuDLL.dll ContextMenuDLL.cpp /link /MACHINE:X64 User32.li
 b
+```  
+
+
+
+
+
+Mac OS 
+```bash
+clang -dynamiclib -o ContextMenu.dylib ContextMenu.m -framework Cocoa
 ```
