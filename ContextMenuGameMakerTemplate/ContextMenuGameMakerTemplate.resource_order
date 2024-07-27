@@ -17,6 +17,7 @@
     {"name":"Timelines","order":8,"path":"folders/Timelines.yy",},
   ],
   "ResourceOrderSettings":[
+    {"name":"ContextMenuMac","order":1,"path":"extensions/ContextMenuMac/ContextMenuMac.yy",},
     {"name":"Script1","order":16,"path":"scripts/Script1/Script1.yy",},
   ],
 }

@@ -34,7 +34,8 @@
   },
   "name":"ContextMenuGameMakerTemplate",
   "resources":[
-    {"id":{"name":"ContextMenu","path":"extensions/ContextMenu/ContextMenu.yy",},},
+    {"id":{"name":"ContextMenuMac","path":"extensions/ContextMenuMac/ContextMenuMac.yy",},},
+    {"id":{"name":"ContextMenuWin","path":"extensions/ContextMenuWin/ContextMenuWin.yy",},},
     {"id":{"name":"Object1","path":"objects/Object1/Object1.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"Script1","path":"scripts/Script1/Script1.yy",},},
