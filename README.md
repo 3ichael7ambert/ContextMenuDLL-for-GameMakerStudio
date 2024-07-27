@@ -9,15 +9,12 @@ cl /LD ContextMenuDLL.cpp /Fe:ContextMenuDLL.dll /link User32.lib
 
 x64
 ```ps1
-cl /LD /Fe:ContextMenuDLL.dll ContextMenuDLL.cpp /link /MACHINE:X64 User32.li
-b
+cl /LD /Fe:ContextMenuDLL.dll ContextMenuDLL.cpp /link /MACHINE:X64 User32.lib
 ```  
-
-
 
 
 
 Mac OS 
 ```bash
-clang -dynamiclib -o ContextMenu.dylib ContextMenu.m -framework Cocoa
+clang -dynamiclib -o ContextMenu.dylib ContextMenuDYLIB.m -framework Cocoa
 ```
