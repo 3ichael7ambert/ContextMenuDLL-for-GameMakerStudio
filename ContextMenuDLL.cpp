@@ -9,26 +9,9 @@ GMLScriptFunction gml_script_function = nullptr;
 
 #define trace(...) { printf("[show_context_menu:%d] ", __LINE__); printf(__VA_ARGS__); printf("\n"); fflush(stdout); }
 
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-    switch (uMsg) {
-        case WM_USER_MENU_SELECT:
-            trace("Received WM_USER_MENU_SELECT with command: %d", (int)wParam);
-            if ((int)wParam == 3) {
-                MessageBox(hwnd, "Developed and Designed by 3ichael 7ambert\nwindow_shape extension by YellowAfterLife\nDebugging by Rayu Johnson", "About", MB_OK);
-            } else if (gml_script_function) {
-                trace("Calling GML script function with command: %d", (int)wParam);
-                gml_script_function((int)wParam);
-            } else {
-                trace("GML script function not set");
-            }
-            return 0;
-        case WM_DESTROY:
-            PostQuitMessage(0);
-            return 0;
-        // Handle other messages
-        // ...
-    }
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+extern "C" __declspec(dllexport) void SetGMLScriptFunction(double func) {
+    gml_script_function = (GMLScriptFunction)(uintptr_t)func;
+    trace("GML script function set: %p", gml_script_function);
 }
 
 extern "C" __declspec(dllexport) void ShowContextMenu(double x, double y, const char* win_handle_str) {
@@ -44,6 +27,7 @@ extern "C" __declspec(dllexport) void ShowContextMenu(double x, double y, const 
         return;
     }
 
+    // Populate menu with color submenus
     HMENU hSubMenuColor = CreatePopupMenu();
     if (!hSubMenuColor) {
         trace("Failed to create color submenu");
@@ -56,6 +40,7 @@ extern "C" __declspec(dllexport) void ShowContextMenu(double x, double y, const 
     AppendMenuA(hSubMenuColor, MF_STRING, 7, "Silver");
     AppendMenuA(hSubMenuColor, MF_STRING, 8, "Pink");
 
+    // Populate menu with instrument submenus
     HMENU hSubMenuInstrument = CreatePopupMenu();
     if (!hSubMenuInstrument) {
         trace("Failed to create instrument submenu");
@@ -66,6 +51,7 @@ extern "C" __declspec(dllexport) void ShowContextMenu(double x, double y, const 
     AppendMenuA(hSubMenuInstrument, MF_STRING, 10, "Piano");
     AppendMenuA(hSubMenuInstrument, MF_STRING, 11, "Drums");
 
+    // Add submenus and other menu items
     AppendMenuA(hMenu, MF_STRING | MF_POPUP, (UINT_PTR)hSubMenuColor, "Character");
     AppendMenuA(hMenu, MF_STRING | MF_POPUP, (UINT_PTR)hSubMenuInstrument, "Instrument");
     AppendMenuA(hMenu, MF_STRING, 3, "About");
@@ -93,7 +79,22 @@ extern "C" __declspec(dllexport) void ShowContextMenu(double x, double y, const 
     trace("Menu destroyed");
 }
 
-extern "C" __declspec(dllexport) void SetGMLScriptFunction(double func) {
-    gml_script_function = (GMLScriptFunction)(uintptr_t)func;
-    trace("GML script function set: %p", gml_script_function);
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+    switch (uMsg) {
+        case WM_USER_MENU_SELECT:
+            trace("Received WM_USER_MENU_SELECT with command: %d", (int)wParam);
+            if (gml_script_function) {
+                trace("Calling GML script function with command: %d", (int)wParam);
+                gml_script_function((int)wParam);
+            } else {
+                trace("GML script function not set");
+            }
+            return 0;
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            return 0;
+        // Handle other messages
+        // ...
+    }
+    return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
